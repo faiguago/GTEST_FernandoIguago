@@ -22,6 +22,8 @@
 # Allow any files from /RawContent dir.
 # Any file in /RawContent dir will be managed by git lfs.
 !/RawContent/**/*
+!/Resources/**
+!README.md
 
 # OS/platform generated files.
 
