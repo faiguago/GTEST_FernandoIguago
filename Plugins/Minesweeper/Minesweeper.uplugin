@@ -1,0 +1,25 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Minesweeper",
+	"Description": "Geotech Test - Minesweeper",
+	"Category": "Other",
+	"CreatedBy": "Fernando Iguago",
+	"CreatedByURL": "https://www.linkedin.com/in/fernando-iguago-293275120/",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EngineVersion": "5.X",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "Minesweeper",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
