@@ -52,6 +52,7 @@ void SMinesweeperButton::Construct(const FArguments& InArgs)
 				]
 		];
 
+	// If the button is a mine, set the text color to red and make it visible
 	if (bIsMine)
 	{
 		MineCountText.Get()->SetColorAndOpacity(FLinearColor::Red);
@@ -59,6 +60,7 @@ void SMinesweeperButton::Construct(const FArguments& InArgs)
 	}
 }
 
+// Reveals the mine by changing the text color to red and making it visible
 void SMinesweeperButton::RevealMine() const
 {
 	if (bIsMine)
@@ -68,6 +70,7 @@ void SMinesweeperButton::RevealMine() const
 	}
 }
 
+// Reveals adjacent buttons if the button is not a mine
 void SMinesweeperButton::RevealAdjacency() const
 {
 	if (MinesweeperModule)
@@ -76,6 +79,7 @@ void SMinesweeperButton::RevealAdjacency() const
 	}
 }
 
+// Marks the button as clicked, disables it, and hides it from view
 void SMinesweeperButton::SetClicked()
 {
 	Button->SetEnabled(false);
@@ -83,12 +87,14 @@ void SMinesweeperButton::SetClicked()
 	
 	bIsClicked = true;
 
+	// Notify the Minesweeper module that a block was clicked
 	if (MinesweeperModule && !bIsMine)
 	{
 		MinesweeperModule->BlockClicked();
 	}
 }
 
+// Sets the neighbor mine count text based on the count provided
 void SMinesweeperButton::SetNeighborMineCount(int const Count) const
 {
 	if (Count < 1) return;
@@ -148,6 +154,7 @@ void SMinesweeperButton::SetNeighborMineCount(int const Count) const
 	}
 }
 
+// Checks if the button is adjacent to the given coordinates
 bool SMinesweeperButton::IsAdjacent(FVector2D const InCoordinates)
 {
 	if (Coordinates.X == InCoordinates.X && (Coordinates.Y == InCoordinates.Y + 1 || Coordinates.Y == InCoordinates.Y - 1) ||
@@ -171,11 +178,13 @@ FReply SMinesweeperButton::HandleClick()
 	{
 		if (bIsMine)
 		{
+			// If the button is a mine, reveal it and notify the module
 			RevealMine();
 			MinesweeperModule->MineClicked();
 			return FReply::Handled();
 		}
 
+		// If the button is not a mine, reveal adjacency or set neighbor mine count
 		auto const Count = MinesweeperModule->CountAdjacentMines(Coordinates);
 		if (Count == 0)
 		{

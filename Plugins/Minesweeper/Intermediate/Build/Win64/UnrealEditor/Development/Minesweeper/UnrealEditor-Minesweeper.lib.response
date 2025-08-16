@@ -6,7 +6,9 @@
 /NAME:"UnrealEditor-Minesweeper.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"D:\_UnrealProjects\GeotechTest\Intermediate\Build\Win64\GeotechTestEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.h.obj"
-"D:\_UnrealProjects\GeotechTest\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\Module.Minesweeper.cpp.obj"
-"D:\_UnrealProjects\GeotechTest\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\Default.rc2.res"
-/OUT:"D:\_UnrealProjects\GeotechTest\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\UnrealEditor-Minesweeper.lib"
+"C:\Users\iguag\Desktop\zzz\GTEST_FernandoIguago\Intermediate\Build\Win64\GTestEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.h.obj"
+"C:\Users\iguag\Desktop\zzz\GTEST_FernandoIguago\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\Module.Minesweeper.cpp.obj"
+"C:\Users\iguag\Desktop\zzz\GTEST_FernandoIguago\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\Minesweeper.cpp.obj"
+"C:\Users\iguag\Desktop\zzz\GTEST_FernandoIguago\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\MinesweeperButton.cpp.obj"
+"C:\Users\iguag\Desktop\zzz\GTEST_FernandoIguago\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\Default.rc2.res"
+/OUT:"C:\Users\iguag\Desktop\zzz\GTEST_FernandoIguago\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\UnrealEditor-Minesweeper.lib"

@@ -38,6 +38,7 @@
 "D:\_UnrealProjects\GeotechTest\Plugins\Minesweeper\Intermediate\Build\Win64\UnrealEditor\Development\Minesweeper\Default.rc2.res"
 "..\Intermediate\Build\Win64\UnrealEditor\Development\Projects\UnrealEditor-Projects.lib"
 "..\Intermediate\Build\Win64\UnrealEditor\Development\InputCore\UnrealEditor-InputCore.lib"
+"..\Intermediate\Build\Win64\UnrealEditor\Development\EditorFramework\UnrealEditor-EditorFramework.lib"
 "..\Intermediate\Build\Win64\UnrealEditor\Development\UnrealEd\UnrealEditor-UnrealEd.lib"
 "..\Intermediate\Build\Win64\UnrealEditor\Development\ToolMenus\UnrealEditor-ToolMenus.lib"
 "..\Intermediate\Build\Win64\UnrealEditor\Development\CoreUObject\UnrealEditor-CoreUObject.lib"

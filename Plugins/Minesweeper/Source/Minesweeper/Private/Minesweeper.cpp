@@ -15,6 +15,8 @@
 #include "Widgets/Layout/SUniformGridPanel.h"
 
 static const FName MinesweeperTabName("Minesweeper");
+static const int MaxGridWidth = 100;
+static const int MaxGridHeight = 100;
 
 #define LOCTEXT_NAMESPACE "FMinesweeperModule"
 
@@ -145,14 +147,14 @@ TSharedRef<SDockTab> FMinesweeperModule::OnSpawnPluginTab(const FSpawnTabArgs& S
 																.AutoWidth()
 																[
 																	SNew(SBox)
-																		.WidthOverride(50.f)
+																		.WidthOverride(80.f)
 																		.VAlign(VAlign_Fill)
 																		[
 																			/** Width Entry */
 																			SAssignNew(WidthEntryTextBox, SEditableTextBox)
 																				.Justification(ETextJustify::Left)
 																				.Font(StandardFont)
-																				.Text(FText::FromString(TEXT("10")))
+																				.Text(FText::FromString(TEXT("15")))
 																		]
 																]
 
@@ -172,14 +174,14 @@ TSharedRef<SDockTab> FMinesweeperModule::OnSpawnPluginTab(const FSpawnTabArgs& S
 																.AutoWidth()
 																[
 																	SNew(SBox)
-																		.WidthOverride(50.f)
+																		.WidthOverride(80.f)
 																		.VAlign(VAlign_Fill)
 																		[
 																			/** Height Entry */
 																			SAssignNew(HeightEntryTextBox, SEditableTextBox)
 																				.Justification(ETextJustify::Left)
 																				.Font(StandardFont)
-																				.Text(FText::FromString(TEXT("10")))
+																				.Text(FText::FromString(TEXT("15")))
 																		]
 
 																]
@@ -208,13 +210,13 @@ TSharedRef<SDockTab> FMinesweeperModule::OnSpawnPluginTab(const FSpawnTabArgs& S
 																[
 
 																	SNew(SBox)
-																		.WidthOverride(50.f)
+																		.WidthOverride(80.f)
 																		[
 																			/** Number of Mines Entry */
 																			SAssignNew(TotalMineCountTextBox, SEditableTextBox)
 																				.Justification(ETextJustify::Left)
 																				.Font(StandardFont)
-																				.Text(FText::FromString(TEXT("10")))
+																				.Text(FText::FromString(TEXT("50")))
 																		]
 																]
 														]
@@ -293,41 +295,42 @@ FReply FMinesweeperModule::GenerateMinesweeperGrid()
 
 	if (HeightEntryTextBox && WidthEntryTextBox && TotalMineCountTextBox)
 	{
+		// Get the text from the entry boxes
 		auto const HeightText = HeightEntryTextBox->GetText();
 		auto const WidthText = WidthEntryTextBox->GetText();
 		auto const TotalMinesText = TotalMineCountTextBox->GetText();
 
 		if (HeightText.IsNumeric() && WidthText.IsNumeric() && TotalMinesText.IsNumeric())
 		{
+			// Parse the text to integers
 			GridHeight = FCString::Atoi(*HeightText.ToString());
 			GridWidth = FCString::Atoi(*WidthText.ToString());
 			TotalMines = FCString::Atoi(*TotalMinesText.ToString());
-			int RemainingMines = TotalMines;
 
 			RemainingBlocks = GridHeight * GridWidth - TotalMines;
 
+			// Log the values for debugging
 			UE_LOG(LogTemp, Warning, TEXT("Height: %d"), GridHeight);
 			UE_LOG(LogTemp, Warning, TEXT("Width: %d"), GridWidth);
 			UE_LOG(LogTemp, Warning, TEXT("Total Mines: %d"), TotalMines);
 
-			/** Cap the values */
-			if (GridHeight > 15)
+			// Ensure the grid dimensions and total mines are within reasonable limits
+			if (GridHeight > MaxGridHeight)
 			{
-				GridHeight = 15;
+				GridHeight = MaxGridHeight;
 			}
-			if (GridWidth > 15)
+			if (GridWidth > MaxGridWidth)
 			{
-				GridWidth = 15;
+				GridWidth = MaxGridWidth;
 			}
-			if (RemainingMines > 225)
-			{
-				RemainingMines = 225;
-			}
-			if (RemainingMines >= GridHeight * GridWidth)
+			if (TotalMines >= GridHeight * GridWidth)
 			{
 				// At least one block must be empty
-				RemainingMines = GridHeight * GridWidth - 1;
+				TotalMines = GridHeight * GridWidth - 1;
 			}
+
+			// Initialize the remaining mines count
+			int RemainingMines = TotalMines;
 
 			// Spawn button and Initial spawn for mines
 			for (int x{}, y{}; y < GridHeight; ++x)
@@ -337,9 +340,14 @@ FReply FMinesweeperModule::GenerateMinesweeperGrid()
 				{
 					++y;
 					x = 0;
-					if (y == GridHeight) break;
+
+					if (y == GridHeight)
+					{
+						break;
+					}
 				}
 
+				// 30% chance to spawn a mine on the first pass
 				if (RemainingMines > 0)
 				{
 					if (FMath::RandRange(0, 99) < 33)
@@ -351,6 +359,7 @@ FReply FMinesweeperModule::GenerateMinesweeperGrid()
 
 				TSharedPtr<SMinesweeperButton> MinesweeperButton;
 
+				// Create a new Minesweeper Button and add it to the Grid Panel
 				SUniformGridPanel::FSlot* Slot;
 				MinesweeperGridPanel->AddSlot(x, y).Expose(Slot);
 				Slot->SetHorizontalAlignment(HAlign_Fill);
@@ -374,6 +383,7 @@ FReply FMinesweeperModule::GenerateMinesweeperGrid()
 						continue;
 					}
 
+					// 30% chance to spawn a mine
 					bool bSpawnMine{ false };
 					if (FMath::RandRange(0, 99) < 33)
 					{
@@ -381,11 +391,13 @@ FReply FMinesweeperModule::GenerateMinesweeperGrid()
 						RemainingMines--;
 					}
 
+					// Set the mine on the button
 					if (bSpawnMine)
 					{
 						Button->SetMine();
 					}
 
+					// If there are no remaining mines, break out of the loop
 					if (RemainingMines <= 0)
 					{
 						break;
@@ -393,7 +405,7 @@ FReply FMinesweeperModule::GenerateMinesweeperGrid()
 				}
 			}
 
-			UE_LOG(LogTemp, Warning, TEXT("Remaining Mines: %d"), RemainingMines)
+			//UE_LOG(LogTemp, Warning, TEXT("Remaining Mines: %d"), RemainingMines)
 		}
 	}
 
@@ -445,6 +457,7 @@ void FMinesweeperModule::MineClicked()
 		Button->SetVisibility(EVisibility::HitTestInvisible);
 	}
 
+	// Display Game Over Text
 	GameOverText->SetText(FText::FromString(TEXT("GAME OVER!")));
 	GameOverText->SetVisibility(EVisibility::Visible);
 }
@@ -459,11 +472,12 @@ void FMinesweeperModule::BlockClicked()
 			Button->SetVisibility(EVisibility::HitTestInvisible);
 		}
 
+		// Display YOU WIN! Text
 		GameOverText->SetText(FText::FromString(TEXT("YOU WIN!")));
 		GameOverText->SetVisibility(EVisibility::Visible);
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Blocks: + %d"), RemainingBlocks);
+	//UE_LOG(LogTemp, Warning, TEXT("Blocks: + %d"), RemainingBlocks);
 }
 
 void FMinesweeperModule::PluginButtonClicked()
